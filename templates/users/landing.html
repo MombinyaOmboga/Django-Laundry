@@ -1,0 +1,10 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+  <section class="jumbotron text-center">
+    <h1 class="display-4">Welcome to the Laundry Website</h1>
+    <p class="lead">The best place to get your laundry done.</p>
+    <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Login</a>
+    <a href="{% url 'register' %}" class="btn btn-secondary btn-lg">Register</a>
+  </section>
+{% endblock %}
