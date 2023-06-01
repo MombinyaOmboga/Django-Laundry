@@ -41,5 +41,3 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect
-def landing(request):
-    return render(request, 'users/landing.html')

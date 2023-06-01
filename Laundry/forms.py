@@ -1,8 +1,12 @@
 from django import forms
-from .models import Service
+from .models import Service, Cart
 
-class AddserviceForm(forms.ModelForm):
+class AddServiceForm(forms.ModelForm):
     class Meta:
         model = Service
-        fields = ['name',
-                  'price']
+        fields = ['name', 'price']
+
+class AddToCartForm(forms.ModelForm):
+    class Meta:
+        model = Cart
+        fields = ['clothes_amount']

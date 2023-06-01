@@ -15,7 +15,7 @@ class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     clothes_amount = models.PositiveIntegerField(default=1)
-    is_verified = models.Boolean(default=False)
+    is_verified = models.BooleanField(default=False)
     total_amount = models.PositiveIntegerField(null=True, blank=True)
 
 class ServiceCart(models.Model):

@@ -1,0 +1,37 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Welcome to our Laundry Website</h1>
+      <p>We provide high-quality laundry services at affordable prices.</p>
+      <a href="{% url 'add-to-cart' %}" class="btn btn-primary">View Our Services</a>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h2>About Us</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu purus justo. Curabitur faucibus luctus aliquam. Proin vulputate nulla vel iaculis vestibulum. In non leo a lorem porttitor ultricies.</p>
+        <a href="{% url 'about' %}" class="btn btn-secondary">Learn More</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Add a Service</h2>
+        <form method="POST" action="{% url 'add-service' %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary">Add Service</button>
+        </form>
+      </div>
+      <div class="col-md-6">
+        <h2>Add to Cart</h2>
+        <form method="POST" action="{% url 'add-to-cart' %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary">Add to Cart</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
