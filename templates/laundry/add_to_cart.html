@@ -2,22 +2,23 @@
 {% load widget_tweaks %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-md-6">
-        <div class="card mx-auto" style="width: 40rem;">
-            <div class="card-body">
-                <h5 class="card-title mb-3">Add clothes to laundry basket</h5>
-                <form method="POST">
-                {% csrf_token %}
-                <div class="form-group mb-3">
-                    <label for="name">Amount of clothes</label>
-                    {% render_field form.clothes_amount class="form-control"%}
-                  </div>                  
-                  
-                <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+<div class="container">
+  <div class="row mt-0">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Add Clothes to Laundry Basket</h5>
+          <form method="POST">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+              <label for="name">Amount of Clothes</label>
+              {% render_field form.clothes_amount class="form-control" %}
             </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
         </div>
+      </div>
     </div>
   </div>
+</div>
 {% endblock %}
