@@ -14,6 +14,16 @@
       align-items: center;
       min-height: 100vh;
     }
+
+    .blue-padding {
+      padding: 0.5rem 1rem;
+      background-color: #0B5ED7;
+      border-radius: 0.25rem;
+    }
+
+    .mr-2 {
+      margin-right: 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -26,7 +36,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link" href="{% url 'home' %}">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Services</a>
@@ -37,18 +47,20 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Contact</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Register</a>
-          </li>
         </ul>
       </div>
+      <ul class="navbar-nav">
+        <li class="nav-item mr-2">
+          <a class="nav-link blue-padding" href="#">Logout</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link blue-padding" href="#">Register</a>
+        </li>
+      </ul>
     </div>
   </nav>
 
-  <main class="container container-center mt5">
+  <main class="container container-center mt-5">
     {% block content %}
     {% endblock %}
   </main>

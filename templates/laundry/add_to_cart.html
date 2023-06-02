@@ -11,7 +11,7 @@
                 {% csrf_token %}
                 <div class="form-group mb-3">
                     <label for="name">Amount of clothes</label>
-                    {render_field form.clothes_amount class="form-control"}
+                    {% render_field form.clothes_amount class="form-control"%}
                   </div>                  
                   
                 <button type="submit" class="btn btn-primary">Submit</button>
