@@ -8,6 +8,13 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title mb-3">Add Clothes to Laundry Basket</h5>
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
           <form method="POST">
             {% csrf_token %}
             <div class="form-group mb-3">

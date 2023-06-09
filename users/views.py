@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
 from .form import RegisterUserForm
@@ -16,10 +15,12 @@ def register_user(request):
         
         else:
             messages.warning(request, "Sorry. Something went wrong")
+            return redirect ('register')
     else:
         form = RegisterUserForm()
-        context = {'form':form}
-        return render(request, 'users/register.html', context)
+
+    context = {'form':form}
+    return render(request, 'users/register.html', context)
     
 def login_user(request):
     if request.method == 'POST':
@@ -33,11 +34,11 @@ def login_user(request):
         
         else:
             messages.warning(request, 'Sorry, something went wrong')
-            return redirect(login)
+            return redirect('login')
         
     else:
         return render(request, 'users/login.html')
     
 def logout_user(request):
     logout(request)
-    return redirect
+    return redirect('login')
