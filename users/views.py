@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 
-from .form import RegisterUserForm
+from users.form import RegisterUserForm
 
 
 def register_user(request):
@@ -10,15 +10,15 @@ def register_user(request):
         form = RegisterUserForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.info(request, 'Account_created. Please login')
+            messages.info(request, 'Account created. Please login')
             return redirect('login')
-        
         else:
             messages.warning(request, "Sorry. Something went wrong")
     else:
         form = RegisterUserForm()
-    context = {'form':form}
-    return render(request, 'users/register.html', context)
+
+        context = {'form':form}
+        return render(request, 'users/register.html', context)
     
 def login_user(request):
     if request.method == 'POST':

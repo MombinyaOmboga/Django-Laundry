@@ -65,6 +65,15 @@
   </nav>
 
   <main class="container container-center mt-5">
+    {% if messages %}
+      <div class="alert alert-success" role="alert">
+        {% for message in messages %}
+        <div class="alert alert-{{message.tags}}" role="alert"></div>
+          <b>{{ message }}</b>
+        {% endfor %}
+      </div>
+    {% endif %}
+  
     {% block content %}
     {% endblock %}
   </main>
