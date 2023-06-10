@@ -16,6 +16,9 @@ def about(request):
     context={}
     return render(request, 'laundry/about.html', context)
 
+from django.contrib import messages
+
+
 def add_service(request):
     if request.method == 'POST':
         form = AddServiceForm(request.POST)
@@ -24,17 +27,16 @@ def add_service(request):
             var = form.save(commit=False)
             var.user = request.user
             var.save()
-            messages.info(request, 'New service Added!')
+            messages.success(request, 'New service added successfully!')
             return redirect('add-service')
-    
         else:
-            messages.warning(request, 'sorry. Something went Wrong')
+            messages.warning(request, 'Sorry, something went wrong.')
             return redirect('add-service')
-    
     else:
         form = AddServiceForm()
         context = {'form': form}
         return render(request, 'laundry/add_service.html', context)
+
 
 def add_to_cart(request):
     if request.method == 'POST':

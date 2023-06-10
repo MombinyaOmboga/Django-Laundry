@@ -15,10 +15,8 @@ def register_user(request):
         
         else:
             messages.warning(request, "Sorry. Something went wrong")
-            return redirect ('register')
     else:
         form = RegisterUserForm()
-
     context = {'form':form}
     return render(request, 'users/register.html', context)
     
