@@ -1,7 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
 
-from .forms import AddServiceForm, AddToCartForm
+from .forms import AddServiceForm, AddToCartForm, AddServiceToCartForm
+from .models import Cart, ServiceCart
 
 
 def home(request):
@@ -56,4 +57,20 @@ def add_to_cart(request):
         form = AddToCartForm()
         context = {'form': form}
         return render(request, 'laundry/add_to_cart.html', context)
-    
+
+def add_services_to_cart(request):
+    if request.method == 'POST':
+        form = AddToCartForm(request.POST)
+        if form.is_valid():
+            var = form.save(commit=False)
+            var.user = request.user
+            cart = Cart.objects.get(id=request.session['cart_id'])
+            var.cart = cart
+            var.save()
+            get_obj = ServiceCart.objects.filter(cart=cart)
+            count = 0
+            for obj in get_obj:
+                calc = obj.service.price * cart.clothes_amount
+                count = count+calc
+                cart.total_amount = count
+                cart.save 

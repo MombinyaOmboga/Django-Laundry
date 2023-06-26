@@ -4,6 +4,13 @@
   <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="col-lg-4">
       <h2 class="text-center">Login</h2>
+      
+      {% if error_message %}
+        <div class="alert alert-danger" role="alert">
+          {{ error_message }}
+        </div>
+      {% endif %}
+      
       <form method="POST">
         {% csrf_token %}
         <div class="mb-3">
@@ -16,10 +23,11 @@
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
       </form>
-        <div class="pt-8">
-          <div class="d-flex justify-content-center links pt-5">
-              Don't have an account? <a href="{% url 'register' %}" class="ml-2">Sign Up</a>
-          </div>
+      
+      <div class="pt-8">
+        <div class="d-flex justify-content-center links pt-5">
+          Don't have an account? <a href="{% url 'register' %}" class="ml-2">Sign Up</a>
+        </div>
       </div>
     </div>
   </div>
