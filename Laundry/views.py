@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
 
-from .forms import AddServiceForm, AddToCartForm, AddServiceToCartForm
+from .forms import AddServiceForm, AddServiceToCartForm, AddToCartForm
 from .models import Cart, ServiceCart
 
 
@@ -48,7 +48,7 @@ def add_to_cart(request):
             var.user = request.user
             var.save()
             request.session['cart_id'] = var.id
-            return redirect('add-service-to-cart')
+            return redirect('add-services-to-cart')
         else:
             messages.warning(request, 'Sorry, Something went wrong!')
             return redirect('add-to-cart')
@@ -60,7 +60,7 @@ def add_to_cart(request):
 
 def add_services_to_cart(request):
     if request.method == 'POST':
-        form = AddToCartForm(request.POST)
+        form = AddServiceToCartForm(request.POST)
         if form.is_valid():
             var = form.save(commit=False)
             var.user = request.user
@@ -72,5 +72,18 @@ def add_services_to_cart(request):
             for obj in get_obj:
                 calc = obj.service.price * cart.clothes_amount
                 count = count+calc
-                cart.total_amount = count
-                cart.save 
+            cart.total_amount = count
+            cart.save()
+            messages.info(request, 'A service has been added to your cart')
+            return redirect('add-services-to-cart')
+        else:
+            print(form.errors)
+            messages.warning(request, 'something went wrong')
+            return redirect('add-services-to-cart')
+        
+    else:
+        form=AddServiceToCartForm()
+        cart = Cart.objects.get(id=request.session['cart_id'])
+        get_obj = ServiceCart.objects.filter(cart=cart)
+        context = {'form':form, 'get_obj':get_obj}
+        return render(request, 'laundry/add_service_to_cart.html', context) 
