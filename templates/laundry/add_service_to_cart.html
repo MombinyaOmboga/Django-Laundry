@@ -1,49 +1,51 @@
+<!-- Updated add_services_to_cart.html -->
 {% extends 'users/base.html' %}
 {% load widget_tweaks %}
 
 {% block content %}
-<div class="container">
-  <div class="row mt-0">
-    <div class="col-md-6 offset-md-3">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title mb-3">Choose Laundry Service</h5>
-          {% if messages %}
-            <div class="alert alert-success" role="alert">
-              {% for message in messages %}
-                {{ message }}
-              {% endfor %}
-            </div>
-          {% endif %}
-          <form method="POST">
-            {% csrf_token %}
-            <div class="form-group mb-3">
-              <label for="name">Choose a service</label>
-              {% render_field form.service class="form-control" %}
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-5">
-    <div class="col-md-6 offset-md-3">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title mb-3">Services selected</h5>
-
-          {% for obj in get_obj %}
-          <div class="alert alert-primary alert-dismissible fade show" role="alert">
-            {{obj.service.name}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <div class="container">
+    <div class="row mt-0">
+      <div class="col-md-6 offset-md-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Choose Laundry Service</h5>
+            {% if messages %}
+              <div class="alert alert-success" role="alert">
+                {% for message in messages %}
+                  {{ message }}
+                {% endfor %}
+              </div>
+            {% endif %}
+            <form method="POST">
+              {% csrf_token %}
+              <div class="form-group mb-3">
+                <label for="name">Choose a service</label>
+                {% render_field form.service class="form-control" %}
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
           </div>
-          {% endfor %}
-          <p class="card-text">Total Amount for {{cart.clothes_amount}} clothe(s) is {{cart.total_amount}}</p>
-          <a href="#" class="btn btn-primary">Do sth</a>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-md-6 offset-md-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Services selected</h5>
+            {% for obj in get_obj %}
+              {% with service=obj.service %}
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                  {{ service.name }} (Price(KSH): {{ service.price }})
+                  <a href="{% url 'delete-service-from-cart' obj.pk %}" type="button" class="btn-close" aria-label="Close"></a>
+                </div>
+              {% endwith %}
+            {% endfor %}
+            <p class="card-text">Total Amount for {{ cart.clothes_amount|default:"0" }} clothe(s) is {{ cart.total_amount|default:"0" }}</p>
+            <a href="#" class="btn btn-primary btn-block">Check Out</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}
