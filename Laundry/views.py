@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
 
-from .forms import AddServiceForm, AddServiceToCartForm, AddToCartForm
-from .models import Cart, ServiceCart
+from .forms import AddServiceForm, AddServiceToCartForm, AddToCartForm, CheckOutForm
+from .models import Cart, Checkout, ServiceCart
 
 
 def home(request):
@@ -97,3 +97,23 @@ def delete_service_from_cart(request, pk):
     cart.total_amount = count
     cart.save()
     return redirect('add-services-to-cart')
+
+
+def checkout_here(request):
+    if request.method == 'POST':
+        form = CheckOutForm(request.POST)
+        if form.is_valid():
+            var = form.save()  # Corrected line
+            cart = request.session['cart_id']
+            var.cart = cart
+            var.save()
+            return render(request, 'payment/make_payment_from_wallet.html')
+        else:
+            messages.warning(request, 'Something went wrong')
+            return redirect('checkout-here')
+    else:
+        form = CheckOutForm()
+        cart = Cart.objects.get(id=request.session['cart_id'])
+        get_obj = ServiceCart.objects.filter(cart=cart)
+        context = {'form': form, 'cart': cart, 'get_obj': get_obj}
+        return render(request, 'laundry/checkout_here.html', context)

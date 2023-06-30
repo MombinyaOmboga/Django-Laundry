@@ -1,0 +1,30 @@
+{% extends 'users/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    
+    <div class="form-group mb-4">
+      <label for="id_full_name">Full Name:</label>
+      <input type="text" class="form-control" id="id_full_name" name="full_name" required>
+    </div>
+    
+    <div class="form-group mb-4">
+      <label for="id_email_id">Email:</label>
+      <input type="email" class="form-control" id="id_email_id" name="email_id" required>
+    </div>
+    
+    <div class="form-group mb-4">
+      <label for="id_delivery_address">Delivery Address:</label>
+      <textarea class="form-control" id="id_delivery_address" name="delivery_address" required></textarea>
+    </div>
+    
+    <div class="form-group mb-4">
+      <label for="id_phone_number">Phone Number:</label>
+      <input type="tel" class="form-control" id="id_phone_number" name="phone_number" required>
+    </div>
+    
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>  
+{% endblock %}
