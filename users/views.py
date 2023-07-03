@@ -2,29 +2,21 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 from users.form import RegisterUserForm
+from payment.models import Wallet
 
 
 def register_user(request):
-    print("Inside register_user view")  # Debug statement
-
     if request.method == 'POST':
-        print("POST request received")  # Debug statement
-
         form = RegisterUserForm(request.POST)
         if form.is_valid():
-            print("Form is valid")  # Debug statement
-
-            form.save()
+            var = form.save(commit=False)
+            Wallet.objects.create(user=var)
+            var.save
             messages.info(request, 'Account created. Please login')
             return redirect('login')
         else:
-            print("Form is invalid")  # Debug statement
-            print(form.errors)
-
             messages.warning(request, "Sorry. Something went wrong")
     else:
-        print("GET request received")  # Debug statement
-
         form = RegisterUserForm()
 
     context = {'form': form}

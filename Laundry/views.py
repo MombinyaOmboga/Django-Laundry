@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 
 from .forms import AddServiceForm, AddServiceToCartForm, AddToCartForm, CheckOutForm
 from .models import Cart, Checkout, ServiceCart
+from payment.models import Wallet
 
 
 def home(request):
@@ -98,13 +99,13 @@ def delete_service_from_cart(request, pk):
     cart.save()
     return redirect('add-services-to-cart')
 
-
 def checkout_here(request):
     if request.method == 'POST':
         form = CheckOutForm(request.POST)
         if form.is_valid():
-            var = form.save()  # Corrected line
-            cart = request.session['cart_id']
+            var = form.save(commit=False)
+            cart_id = request.session['cart_id']
+            cart = Cart.objects.get(id=cart_id)
             var.cart = cart
             var.save()
             return render(request, 'payment/make_payment_from_wallet.html')
@@ -113,7 +114,23 @@ def checkout_here(request):
             return redirect('checkout-here')
     else:
         form = CheckOutForm()
-        cart = Cart.objects.get(id=request.session['cart_id'])
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
         get_obj = ServiceCart.objects.filter(cart=cart)
         context = {'form': form, 'cart': cart, 'get_obj': get_obj}
         return render(request, 'laundry/checkout_here.html', context)
+    
+def make_payment(request):
+    cart = Cart.objects.get(id=request.session['cart_id'])
+    wallet = Wallet.objects.get(user=request.user)
+    if wallet.balance >= wallet.balance:
+        wallet.balance = wallet.balance - cart.total_amount
+        cart.is_verified = True
+        cart.save()
+        messages.info(request, 'Payment completed!, Laundry Process has been Initiated')
+        return redirect('home')
+    
+    else:
+        messages.warning(request, 'Sorry, insufficient funds in your wallet!')
+
+    

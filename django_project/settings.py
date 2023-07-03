@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'Laundry',
+    'payment',
     'users',
     'widget_tweaks',
 ]
