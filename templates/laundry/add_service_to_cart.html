@@ -42,7 +42,7 @@
                 </div>
               {% endwith %}
             {% endfor %}
-            <p class="card-text">Total Amount for {{ cart.clothes_amount|default:"0" }} clothe(s) is {{ cart.total_amount|default:"0" }}</p>
+            <p class="card-text">Total Amount for {{cart.clothes_amount|default:"0"}} clothe(s) is {{ cart.total_amount|default:"0" }}</p>
             <a href="{% url 'checkout-here' %}" class="btn btn-primary btn-block">Check Out</a>
           </div>
         </div>

@@ -1,8 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
-from users.form import RegisterUserForm
+
 from payment.models import Wallet
+from users.form import RegisterUserForm
 
 
 def register_user(request):
@@ -10,12 +11,12 @@ def register_user(request):
         form = RegisterUserForm(request.POST)
         if form.is_valid():
             var = form.save(commit=False)
+            var.save()
             Wallet.objects.create(user=var)
-            var.save
-            messages.info(request, 'Account created. Please login')
+            messages.info(request, 'Account created successfully. Please login.')
             return redirect('login')
         else:
-            messages.warning(request, "Sorry. Something went wrong")
+            messages.warning(request, 'Sorry, something went wrong. Please try again.')
     else:
         form = RegisterUserForm()
 

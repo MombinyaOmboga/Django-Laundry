@@ -1,9 +1,10 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
 
+from payment.models import Wallet
+
 from .forms import AddServiceForm, AddServiceToCartForm, AddToCartForm, CheckOutForm
 from .models import Cart, Checkout, ServiceCart
-from payment.models import Wallet
 
 
 def home(request):
@@ -55,6 +56,9 @@ def add_to_cart(request):
         context = {'form': form}
         return render(request, 'laundry/add_to_cart.html', context)
 
+from django.db.models import Sum
+
+
 def add_services_to_cart(request):
     if request.method == 'POST':
         form = AddServiceToCartForm(request.POST)
@@ -64,27 +68,26 @@ def add_services_to_cart(request):
             cart = Cart.objects.get(id=request.session['cart_id'])
             service_cart_item.cart = cart
             service_cart_item.save()
-            get_obj = ServiceCart.objects.filter(cart=cart)
-            count = 0
-            for obj in get_obj:
-                calc = obj.service.price * cart.clothes_amount
-                count += calc
-            cart.total_amount = count
-            cart.save()
             messages.info(request, 'A service has been added to your cart')
             return redirect('add-services-to-cart')
         else:
             print(form.errors)
             messages.warning(request, 'Something went wrong')
             return redirect('add-services-to-cart')
-        
+
     else:
         form = AddServiceToCartForm()
         cart = Cart.objects.get(id=request.session['cart_id'])
         get_obj = ServiceCart.objects.filter(cart=cart)
+        
+        # Calculate the total amount
+        total_amount = get_obj.aggregate(Sum('service__price'))['service__price__sum']
+        cart.total_amount = total_amount or 0
+        cart.save()
+        
         context = {'form': form, 'get_obj': get_obj}
-        return render(request, 'laundry/add_service_to_cart.html', context) 
-    
+        return render(request, 'laundry/add_service_to_cart.html', context)
+
 def delete_service_from_cart(request, pk):
     service_cart_item = ServiceCart.objects.get(pk=pk)
     service_cart_item.delete()
@@ -108,6 +111,7 @@ def checkout_here(request):
             cart = Cart.objects.get(id=cart_id)
             var.cart = cart
             var.save()
+            context = {'cart':cart}
             return render(request, 'payment/make_payment_from_wallet.html')
         else:
             messages.warning(request, 'Something went wrong')
@@ -119,8 +123,8 @@ def checkout_here(request):
         get_obj = ServiceCart.objects.filter(cart=cart)
         context = {'form': form, 'cart': cart, 'get_obj': get_obj}
         return render(request, 'laundry/checkout_here.html', context)
-    
-def make_payment(request):
+     
+def pay_for_laundry(request):
     cart = Cart.objects.get(id=request.session['cart_id'])
     wallet = Wallet.objects.get(user=request.user)
     if wallet.balance >= wallet.balance:
