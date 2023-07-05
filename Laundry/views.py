@@ -131,6 +131,7 @@ def pay_for_laundry(request):
         wallet.balance = wallet.balance - cart.total_amount
         cart.is_verified = True
         cart.save()
+        wallet.save()
         messages.info(request, 'Payment completed!, Laundry Process has been Initiated')
         return redirect('home')
     
