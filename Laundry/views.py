@@ -85,7 +85,7 @@ def add_services_to_cart(request):
         cart.total_amount = total_amount or 0
         cart.save()
         
-        context = {'form': form, 'get_obj': get_obj}
+        context = {'form': form, 'get_obj': get_obj, 'cart':cart}
         return render(request, 'laundry/add_service_to_cart.html', context)
 
 def delete_service_from_cart(request, pk):
@@ -127,15 +127,15 @@ def checkout_here(request):
 def pay_for_laundry(request):
     cart = Cart.objects.get(id=request.session['cart_id'])
     wallet = Wallet.objects.get(user=request.user)
-    if wallet.balance >= wallet.balance:
-        wallet.balance = wallet.balance - cart.total_amount
+    print(cart.total_amount)
+    
+    if wallet.balance >= cart.total_amount:
+        wallet.balance -= cart.total_amount
         cart.is_verified = True
         cart.save()
         wallet.save()
-        messages.info(request, 'Payment completed!, Laundry Process has been Initiated')
+        messages.info(request, 'Payment completed! Laundry process has been initiated')
         return redirect('home')
-    
     else:
         messages.warning(request, 'Sorry, insufficient funds in your wallet!')
-
-    
+        return redirect('add-services-to-cart')
