@@ -2,7 +2,8 @@ import secrets
 
 from django.contrib.auth.models import User
 from django.db import models
-from paystack import Paystack
+
+from .paystack import Paystack
 
 
 class Wallet(models.Model):
