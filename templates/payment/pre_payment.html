@@ -1,0 +1,21 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Pre-Payment</h1>
+    <p>Enter payment details:</p>
+    <form method="POST" action="{% url 'initiate_payment' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input type="text" class="form-control" id="amount" name="amount" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+    </form>
+</div>
+{% endblock content %}
+    
