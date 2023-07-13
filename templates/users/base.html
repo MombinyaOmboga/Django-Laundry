@@ -38,13 +38,13 @@
                         <span class="navbar-text text-light me-2">Wallet Balance: {{request.user.wallet.balance}}</span>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-primary" href="#">Logout</a>
+                        <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
                     </li>
                 </ul>
                 {% else %}
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="btn btn-primary" href="#">Login</a>
+                        <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
                     </li>
                 </ul>
                 {% endif %}

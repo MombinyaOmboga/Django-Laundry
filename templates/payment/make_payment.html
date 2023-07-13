@@ -1,6 +1,33 @@
 {% extends 'users/base.html' %}
 
 {% block content %}
-<script src="https://js.paystack.co/v1/inline.js"></script>
+<script src="https://js.paystack.co/v1/inline.jscon"></script>
+<h2>Confirm payment of {{payment.amount}} KSH, into your wallet</h2>
+<button onclick="paywithPaystack()" class="btn btn-primary">Pay</button>
+
+<script>
+    function paywithPaystack(){
+        let currency = "KSH";
+        let plan = "";
+        let ref = "{{payment.ref}}";
+        let obj = {
+            key: "{{paystack_pub_key}}",
+            email: "{{payment.email}}",
+            amount: "{{amount_value}}",
+            ref: ref,
+            callback: function(response){
+                window.location.href = "{% url 'verify.payment' payment.ref %}"
+            },
+        };
+        if (Boolean(currency)){
+            obj.currency = currency.toUpperCase();
+        }
+        if (Boolean(plan)){
+            obj.plan = plan;
+        }
+        var handler = PaystackPop.setup(obj);
+        handler.openframe();
+    }
+</script>
 {% endblock content %}
     

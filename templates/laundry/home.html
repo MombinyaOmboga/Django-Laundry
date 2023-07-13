@@ -20,10 +20,13 @@
         </div>
       </div>
     </div>
-
+    {% if request.user.is_superuser %}
     <div class="col-md-6">
       <div class="card mb-3">
         <div class="card-body">
+          <li class="nav-item">
+            <a class="btn btn-primary" href="{% url 'initiate-payment' %}">Fund wallet</a>
+          </li>
           <h2 class="card-title">Add a Service</h2>
           <form method="POST" action="{% url 'add-service' %}">
             {% csrf_token %}
@@ -33,6 +36,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
   </div>
 </div>
 {% endblock %}
