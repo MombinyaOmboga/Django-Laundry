@@ -25,7 +25,7 @@
       <div class="card mb-3">
         <div class="card-body">
           <li class="nav-item">
-            <a class="btn btn-primary" href="{% url 'initiate-payment' %}">Fund wallet</a>
+            <a href="{% url 'initiate-payment' %}" class="btn btn-primary">Fund wallet</a>
           </li>
           <h2 class="card-title">Add a Service</h2>
           <form method="POST" action="{% url 'add-service' %}">

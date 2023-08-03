@@ -8,7 +8,7 @@ from .models import Payment, Wallet
 def initiate_payment(request):
     if request.method == 'POST':
         amount = request.POST.get('amount')
-        email = request.POST.GET('email')
+        email = request.POST.get('email')
 
         pk = settings.PAYSTACK_PUBLIC_KEY
 

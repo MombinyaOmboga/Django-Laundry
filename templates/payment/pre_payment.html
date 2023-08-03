@@ -4,7 +4,7 @@
 <div class="container">
     <h1>Pre-Payment</h1>
     <p>Enter payment details:</p>
-    <form method="POST" action="{% url 'initiate_payment' %}">
+    <form method="POST" action="{% url 'initiate-payment' %}">
         {% csrf_token %}
         <div class="form-group">
             <label for="amount">Amount:</label>

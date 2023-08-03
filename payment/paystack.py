@@ -1,5 +1,6 @@
-from django.conf import settings
 import requests
+from django.conf import settings
+
 
 class Paystack:
     PAYSTACK_SK = settings.PAYSTACK_SECRET_KEY
@@ -8,7 +9,7 @@ class Paystack:
     def verify_payment(self, ref, *args, **kwargs):
         path = f'transaction/verify/{ref}'
         headers = {
-            'authorization': f'Bearer{self.PAYSTACK_SK}',
+            'authorization': f'Bearer {self.PAYSTACK_SK}',
             'Content-Type': 'application/json',
         }
 

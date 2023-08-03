@@ -24,7 +24,7 @@ class Payment(models.Model):
     def save(self, *args, **kwargs):
         while not self.ref:
             ref = secrets.token_urlsafe(50)
-            similar_ref = Payment.objects.filter(ref-ref)
+            similar_ref = Payment.objects.filter(ref=ref)
             if not similar_ref:
                 self.ref = ref
         super().save(*args, **kwargs)
@@ -37,7 +37,7 @@ class Payment(models.Model):
         status, result = paystack.verify_payment(self.ref, self.amount)
         if status:
             if result['amount']/100 == self.amount:
-                self.veified = True
+                self.verified = True
                 self.save
         if self.verified:
             return True

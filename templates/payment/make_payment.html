@@ -1,7 +1,7 @@
 {% extends 'users/base.html' %}
 
 {% block content %}
-<script src="https://js.paystack.co/v1/inline.jscon"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
 <h2>Confirm payment of {{payment.amount}} KSH, into your wallet</h2>
 <button onclick="paywithPaystack()" class="btn btn-primary">Pay</button>
 
@@ -16,7 +16,7 @@
             amount: "{{amount_value}}",
             ref: ref,
             callback: function(response){
-                window.location.href = "{% url 'verify.payment' payment.ref %}"
+                window.location.href = "{% url 'verify-payment' payment.ref %}"
             },
         };
         if (Boolean(currency)){
@@ -26,7 +26,7 @@
             obj.plan = plan;
         }
         var handler = PaystackPop.setup(obj);
-        handler.openframe();
+        handler.openIframe();
     }
 </script>
 {% endblock content %}

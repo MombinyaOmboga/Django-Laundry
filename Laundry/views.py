@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db.models import Sum
 from django.shortcuts import redirect, render
 
 from payment.models import Wallet
@@ -55,9 +56,6 @@ def add_to_cart(request):
         form = AddToCartForm()
         context = {'form': form}
         return render(request, 'laundry/add_to_cart.html', context)
-
-from django.db.models import Sum
-
 
 def add_services_to_cart(request):
     if request.method == 'POST':
